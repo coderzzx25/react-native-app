@@ -1,20 +1,46 @@
 import React from 'react';
-import {SafeAreaView, Text} from 'react-native';
-import {IconButton} from 'react-native-paper';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
 
-const IconHome = () => <Icon name="home" size={30} color="black" />;
+import Home from './src/views/Home';
+import Me from './src/views/Me';
+
+const Tab = createBottomTabNavigator();
+
+const HomeTabIcon = ({color, size}: {color: string; size: number}) => (
+  <Icon name="home" size={size} color={color} />
+);
+const MeTabIcon = ({color, size}: {color: string; size: number}) => (
+  <Icon name="user" size={size} color={color} />
+);
 
 function App(): React.JSX.Element {
   return (
-    <SafeAreaView>
-      <Text>App</Text>
-      <IconButton
-        icon={IconHome}
-        size={20}
-        onPress={() => console.log('Pressed')}
-      />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Tab.Navigator initialRouteName="home">
+        <Tab.Screen
+          name="home"
+          component={Home}
+          options={{
+            headerShown: false,
+            tabBarIcon: HomeTabIcon,
+            tabBarLabelStyle: {fontSize: 12},
+            tabBarLabel: '首页',
+          }}
+        />
+        <Tab.Screen
+          name="me"
+          component={Me}
+          options={{
+            headerShown: false,
+            tabBarIcon: MeTabIcon,
+            tabBarLabelStyle: {fontSize: 12},
+            tabBarLabel: '我的',
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 
